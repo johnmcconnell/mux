@@ -1,4 +1,4 @@
-package blah(type a byte, type b, type c)
+package blah(type a, type b, type c)
 
 // Handler handles commands
 type Handler interface {
