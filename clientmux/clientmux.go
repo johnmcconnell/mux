@@ -1,11 +1,17 @@
 package clientmux
 
-import b "io"
 import c "io"
+import "net"
+
+// Input ...
+type Input struct {
+	Args []string
+	Conn net.Conn
+}
 
 // Handler handles commands
 type Handler interface {
-	Handle(in b.Reader, out c.Writer)
+	Handle(in Input, out c.Writer)
 }
 
 // New returns a new handler
@@ -41,7 +47,7 @@ func (m *Mux) HasHandler(s string) bool {
 }
 
 // Select tell the mux to select and run the command
-func (m *Mux) Select(s string, in b.Reader, out c.Writer) bool {
+func (m *Mux) Select(s string, in Input, out c.Writer) bool {
 	h, ok := m.Handlers[s]
 
 	if ok {
@@ -53,7 +59,7 @@ func (m *Mux) Select(s string, in b.Reader, out c.Writer) bool {
 }
 
 // Here we will test that the types parameters are ok...
-func testTypes(arg0 string, arg1 b.Reader, arg2 c.Writer) {
+func testTypes(arg0 string, arg1 Input, arg2 c.Writer) {
 	f := func(interface{}, interface{}, interface{}) {} // this func does nothing...
 	f(arg0, arg1, arg2)
 }
